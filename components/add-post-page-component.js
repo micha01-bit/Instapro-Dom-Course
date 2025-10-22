@@ -1,5 +1,6 @@
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
+import { sanitizeHtml } from "./sanitizeHtml.js"; // Добавляем импорт функции
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   const render = () => {
@@ -44,17 +45,23 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
         .getElementById("post-description")
         .value.trim();
 
+      // Добавляем санитайзинг HTML перед отправкой
+      const sanitizedDescription = sanitizeHtml(description);
+
       if (!previewUrl) {
         alert("Пожалуйста, выберите фото");
         return;
       }
 
-      if (!description) {
+      if (!sanitizedDescription) {
         alert("Пожалуйста, добавьте описание");
         return;
       }
 
-      onAddPostClick({ description, imageUrl: previewUrl });
+      onAddPostClick({ 
+        description: sanitizedDescription, 
+        imageUrl: previewUrl 
+      });
     });
   };
 
