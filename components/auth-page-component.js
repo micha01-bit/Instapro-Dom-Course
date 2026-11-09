@@ -1,6 +1,7 @@
 import { loginUser, registerUser } from "../api.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { renderUploadImageComponent } from "./upload-image-component.js";
+import { renderUploadImageComponent } from "./upload-image-component.js"; 
+import { sanitizeHtml } from "./sanitizeHtml.js";
 
 /**
  * Компонент страницы авторизации.
@@ -77,7 +78,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
      * @param {string} message - Текст сообщения об ошибке.
      */
     const setError = (message) => {
-      appEl.querySelector(".form-error").textContent = message;
+      appEl.querySelector('.form-error').innerHTML = sanitizeHtml(message);
     };
 
     // Рендерим заголовок страницы
